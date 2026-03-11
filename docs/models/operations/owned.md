@@ -8,11 +8,11 @@ Indicates if the user owns the server.
 import { Owned } from "@lukehagar/plexjs/models/operations";
 
 let value: Owned = Owned.Enable;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

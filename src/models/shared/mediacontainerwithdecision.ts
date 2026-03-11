@@ -28,6 +28,26 @@ export type MediaContainerWithDecisionGuid = {
 };
 
 /**
+ * Voice activity detection availability flag returned by PMS.
+ *
+ * @remarks
+ * PMS returns this as string values (`"0"` or `"1"`) instead of a JSON boolean.
+ */
+export enum MediaContainerWithDecisionHasVoiceActivity {
+  False = 0,
+  True = 1,
+}
+/**
+ * Voice activity detection availability flag returned by PMS.
+ *
+ * @remarks
+ * PMS returns this as string values (`"0"` or `"1"`) instead of a JSON boolean.
+ */
+export type MediaContainerWithDecisionHasVoiceActivityOpen = OpenEnum<
+  typeof MediaContainerWithDecisionHasVoiceActivity
+>;
+
+/**
  * Stream type:
  *
  * @remarks
@@ -341,7 +361,13 @@ export type MediaContainerWithDecisionMedia = {
   container?: string | undefined;
   duration?: number | undefined;
   has64bitOffsets?: boolean | undefined;
-  hasVoiceActivity?: boolean | undefined;
+  /**
+   * Voice activity detection availability flag returned by PMS.
+   *
+   * @remarks
+   * PMS returns this as string values (`"0"` or `"1"`) instead of a JSON boolean.
+   */
+  hasVoiceActivity: MediaContainerWithDecisionHasVoiceActivityOpen;
   height?: number | undefined;
   id: number;
   optimizedForStreaming?: boolean | undefined;
@@ -697,6 +723,11 @@ export function mediaContainerWithDecisionGuidFromJSON(
 }
 
 /** @internal */
+export const MediaContainerWithDecisionHasVoiceActivity$inboundSchema:
+  z.ZodType<MediaContainerWithDecisionHasVoiceActivityOpen, unknown> = openEnums
+    .inboundSchemaInt(MediaContainerWithDecisionHasVoiceActivity);
+
+/** @internal */
 export const MediaContainerWithDecisionStreamType$inboundSchema: z.ZodType<
   MediaContainerWithDecisionStreamTypeOpen,
   unknown
@@ -861,7 +892,8 @@ export const MediaContainerWithDecisionMedia$inboundSchema: z.ZodType<
     container: types.optional(types.string()),
     duration: types.optional(types.number()),
     has64bitOffsets: types.optional(types.boolean()),
-    hasVoiceActivity: types.optional(types.boolean()),
+    hasVoiceActivity: MediaContainerWithDecisionHasVoiceActivity$inboundSchema
+      .default(MediaContainerWithDecisionHasVoiceActivity.False),
     height: types.optional(types.number()),
     id: types.number(),
     optimizedForStreaming: types.optional(types.boolean()),

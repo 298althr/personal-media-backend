@@ -8,11 +8,11 @@ Indicates if the user has restricted access.
 import { Restricted } from "@lukehagar/plexjs/models/operations";
 
 let value: Restricted = Restricted.Enable;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

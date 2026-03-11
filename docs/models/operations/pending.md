@@ -8,11 +8,11 @@ Indicates if the server is pending approval.
 import { Pending } from "@lukehagar/plexjs/models/operations";
 
 let value: Pending = Pending.Enable;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

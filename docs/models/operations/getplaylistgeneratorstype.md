@@ -12,11 +12,11 @@ The type of playlist generator.
 import { GetPlaylistGeneratorsType } from "@lukehagar/plexjs/models/operations";
 
 let value: GetPlaylistGeneratorsType = GetPlaylistGeneratorsType.FortyTwo;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

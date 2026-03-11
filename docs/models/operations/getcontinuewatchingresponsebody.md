@@ -6,7 +6,7 @@ OK
 
 ```typescript
 import { GetContinueWatchingResponseBody } from "@lukehagar/plexjs/models/operations";
-import { StreamType } from "@lukehagar/plexjs/models/shared";
+import { HasVoiceActivity, StreamType } from "@lukehagar/plexjs/models/shared";
 
 let value: GetContinueWatchingResponseBody = {
   mediaContainer: {
@@ -88,7 +88,7 @@ let value: GetContinueWatchingResponseBody = {
                 container: "mov",
                 duration: 150192,
                 has64bitOffsets: false,
-                hasVoiceActivity: true,
+                hasVoiceActivity: HasVoiceActivity.True,
                 height: 544,
                 id: 1,
                 optimizedForStreaming: false,

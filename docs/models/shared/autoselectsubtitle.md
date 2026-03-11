@@ -8,11 +8,11 @@ The auto-select subtitle mode (0 = Manually selected, 1 = Shown with foreign aud
 import { AutoSelectSubtitle } from "@lukehagar/plexjs/models/shared";
 
 let value: AutoSelectSubtitle = AutoSelectSubtitle.ShownWithForeignAudio;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                    | Value                   |
 | ----------------------- | ----------------------- |

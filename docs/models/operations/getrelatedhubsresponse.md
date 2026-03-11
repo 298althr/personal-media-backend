@@ -4,7 +4,7 @@
 
 ```typescript
 import { GetRelatedHubsResponse } from "@lukehagar/plexjs/models/operations";
-import { StreamType } from "@lukehagar/plexjs/models/shared";
+import { HasVoiceActivity, StreamType } from "@lukehagar/plexjs/models/shared";
 
 let value: GetRelatedHubsResponse = {
   headers: {
@@ -99,7 +99,7 @@ let value: GetRelatedHubsResponse = {
                   container: "mov",
                   duration: 150192,
                   has64bitOffsets: false,
-                  hasVoiceActivity: true,
+                  hasVoiceActivity: HasVoiceActivity.True,
                   height: 544,
                   id: 1,
                   optimizedForStreaming: false,

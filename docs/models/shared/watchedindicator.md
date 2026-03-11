@@ -8,11 +8,11 @@ Whether or not media watched indicators are enabled (little orange dot on media)
 import { WatchedIndicator } from "@lukehagar/plexjs/models/shared";
 
 let value: WatchedIndicator = WatchedIndicator.MoviesAndTvShows;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

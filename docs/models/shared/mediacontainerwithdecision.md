@@ -8,7 +8,11 @@ It is also common for a `MediaContainer` to contain attributes "hoisted" from it
 ## Example Usage
 
 ```typescript
-import { MediaContainerWithDecision, MediaContainerWithDecisionStreamType } from "@lukehagar/plexjs/models/shared";
+import {
+  MediaContainerWithDecision,
+  MediaContainerWithDecisionHasVoiceActivity,
+  MediaContainerWithDecisionStreamType,
+} from "@lukehagar/plexjs/models/shared";
 
 let value: MediaContainerWithDecision = {
   mediaContainer: {
@@ -84,7 +88,7 @@ let value: MediaContainerWithDecision = {
             container: "mov",
             duration: 150192,
             has64bitOffsets: false,
-            hasVoiceActivity: true,
+            hasVoiceActivity: MediaContainerWithDecisionHasVoiceActivity.True,
             height: 544,
             id: 1,
             optimizedForStreaming: false,

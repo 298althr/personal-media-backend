@@ -8,11 +8,11 @@ The state of processing if this generator is part of an optimizer playlist
 import { ProcessingState } from "@lukehagar/plexjs/models/operations";
 
 let value: ProcessingState = ProcessingState.Disabled;
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

@@ -8,11 +8,11 @@ Indicates if the user is allowed to use tuners.
 import { AllowTuners } from "@lukehagar/plexjs/models/operations";
 
 let value: AllowTuners = AllowTuners.Enable;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

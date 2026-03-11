@@ -12,11 +12,11 @@ Stream type:
 import { StreamType } from "@lukehagar/plexjs/models/shared";
 
 let value: StreamType = StreamType.Video;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

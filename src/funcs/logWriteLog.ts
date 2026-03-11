@@ -88,7 +88,9 @@ async function $do(
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = payload;
+  const body = payload instanceof Uint8Array
+    ? new Uint8Array(payload).buffer
+    : payload;
 
   const path = pathToFunc("/log")();
 

@@ -8,11 +8,11 @@ The forced subtitles searches mode (0 = Prefer non-forced subtitles, 1 = Prefer 
 import { DefaultSubtitleForced } from "@lukehagar/plexjs/models/shared";
 
 let value: DefaultSubtitleForced = DefaultSubtitleForced.PreferForced;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

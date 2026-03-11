@@ -7,7 +7,7 @@ A media subscription contains a representation of metadata desired to be recorde
 
 ```typescript
 import { MediaSubscription } from "@lukehagar/plexjs/models/operations";
-import { StreamType } from "@lukehagar/plexjs/models/shared";
+import { HasVoiceActivity, StreamType } from "@lukehagar/plexjs/models/shared";
 
 let value: MediaSubscription = {
   title: "This Episode",
@@ -84,7 +84,7 @@ let value: MediaSubscription = {
             container: "mov",
             duration: 150192,
             has64bitOffsets: false,
-            hasVoiceActivity: true,
+            hasVoiceActivity: HasVoiceActivity.True,
             height: 544,
             id: 1,
             optimizedForStreaming: false,

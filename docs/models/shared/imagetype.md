@@ -8,11 +8,11 @@ Describes both the purpose and intended presentation of the image.
 import { ImageType } from "@lukehagar/plexjs/models/shared";
 
 let value: ImageType = ImageType.ClearLogo;
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

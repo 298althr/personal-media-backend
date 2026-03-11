@@ -210,6 +210,7 @@ actions:
             async function run() {
               await plexAPI.timeline.markPlayed({
                 identifier: "<value>",
+                key: "59398",
               });
 
 
@@ -1385,9 +1386,7 @@ actions:
           source: |-
             import { PlexAPI } from "@lukehagar/plexjs";
 
-            const plexAPI = new PlexAPI({
-              token: "<YOUR_API_KEY_HERE>",
-            });
+            const plexAPI = new PlexAPI();
 
             async function run() {
               const result = await plexAPI.general.getIdentity();
@@ -5107,7 +5106,7 @@ actions:
 
             async function run() {
               const result = await plexAPI.epg.computeChannelMap({
-                deviceQueryParameter: "<value>",
+                deviceQueryParameter: "Mobile",
                 lineup: "<value>",
               });
 
@@ -5315,7 +5314,7 @@ actions:
 
             async function run() {
               const result = await plexAPI.epg.getLineup({
-                deviceQueryParameter: "<value>",
+                deviceQueryParameter: "Desktop",
                 lineupGroup: "<value>",
               });
 
@@ -6802,7 +6801,9 @@ actions:
             });
 
             async function run() {
-              const result = await plexAPI.libraryPlaylists.createPlaylist({});
+              const result = await plexAPI.libraryPlaylists.createPlaylist({
+                uri: "https://short-term-disconnection.name/",
+              });
 
               console.log(result);
             }
@@ -7306,7 +7307,7 @@ actions:
 
             const plexAPI = new PlexAPI({
               accepts: Accepts.ApplicationXml,
-              clientIdentifier: "abc123",
+              clientIdentifier: "3381b62b-9ab7-4e37-827b-203e9809eb58",
               token: "<YOUR_API_KEY_HERE>",
             });
 
@@ -7347,7 +7348,7 @@ actions:
 
             async function run() {
               const result = await plexAPI.general.getSourceConnectionInformation({
-                source: "<value>",
+                source: "server://client-identifier",
                 refresh: BoolInt.True,
               });
 
@@ -7785,7 +7786,7 @@ actions:
 
             const plexAPI = new PlexAPI({
               accepts: Accepts.ApplicationXml,
-              clientIdentifier: "abc123",
+              clientIdentifier: "3381b62b-9ab7-4e37-827b-203e9809eb58",
               product: "Plex for Roku",
               version: "2.4.1",
               platform: "Roku",
@@ -7793,7 +7794,7 @@ actions:
               device: "Roku 3",
               model: "4200X",
               deviceVendor: "Roku",
-              deviceName: "Living Room TV",
+              deviceName: "Chrome",
               marketplace: "googlePlay",
               token: "<YOUR_API_KEY_HERE>",
             });
@@ -7816,7 +7817,7 @@ actions:
 
             const plexAPI = new PlexAPI({
               accepts: Accepts.ApplicationXml,
-              clientIdentifier: "abc123",
+              clientIdentifier: "3381b62b-9ab7-4e37-827b-203e9809eb58",
               product: "Plex for Roku",
               version: "2.4.1",
               platform: "Roku",

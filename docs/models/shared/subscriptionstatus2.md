@@ -8,11 +8,11 @@ String representation of subscriptionActive
 import { SubscriptionStatus2 } from "@lukehagar/plexjs/models/shared";
 
 let value: SubscriptionStatus2 = SubscriptionStatus2.Inactive;
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

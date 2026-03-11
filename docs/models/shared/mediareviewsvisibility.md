@@ -8,11 +8,11 @@ Whether or not the account has media reviews visibility enabled
 import { MediaReviewsVisibility } from "@lukehagar/plexjs/models/shared";
 
 let value: MediaReviewsVisibility = MediaReviewsVisibility.CriticsOnly;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

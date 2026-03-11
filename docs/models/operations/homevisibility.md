@@ -13,11 +13,11 @@ Whether this hub is visible on the home screen
 import { HomeVisibility } from "@lukehagar/plexjs/models/operations";
 
 let value: HomeVisibility = HomeVisibility.All;
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

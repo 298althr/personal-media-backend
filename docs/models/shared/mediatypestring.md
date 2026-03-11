@@ -9,11 +9,11 @@ The type of media content in the Plex library. This can represent videos, music,
 import { MediaTypeString } from "@lukehagar/plexjs/models/shared";
 
 let value: MediaTypeString = MediaTypeString.Movie;
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

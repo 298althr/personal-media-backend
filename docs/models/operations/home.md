@@ -8,11 +8,11 @@ Indicates if the user is part of a home group.
 import { Home } from "@lukehagar/plexjs/models/operations";
 
 let value: Home = Home.Enable;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

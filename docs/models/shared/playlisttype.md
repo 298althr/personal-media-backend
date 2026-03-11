@@ -8,11 +8,11 @@ The type of the playlist.
 import { PlaylistType } from "@lukehagar/plexjs/models/shared";
 
 let value: PlaylistType = PlaylistType.Video;
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

@@ -8,11 +8,11 @@ Indicates whether the account is protected.
 import { Protected } from "@lukehagar/plexjs/models/operations";
 
 let value: Protected = Protected.Enable;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

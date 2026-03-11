@@ -13,11 +13,11 @@ The visibility of this hub in recommendations:
 import { RecommendationsVisibility } from "@lukehagar/plexjs/models/operations";
 
 let value: RecommendationsVisibility = RecommendationsVisibility.Admin;
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

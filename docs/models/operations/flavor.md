@@ -11,11 +11,11 @@
 import { Flavor } from "@lukehagar/plexjs/models/operations";
 
 let value: Flavor = Flavor.Two;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

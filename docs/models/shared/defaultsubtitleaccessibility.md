@@ -9,11 +9,11 @@ import { DefaultSubtitleAccessibility } from "@lukehagar/plexjs/models/shared";
 
 let value: DefaultSubtitleAccessibility =
   DefaultSubtitleAccessibility.PreferSdh;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

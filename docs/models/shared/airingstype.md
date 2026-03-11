@@ -6,11 +6,11 @@
 import { AiringsType } from "@lukehagar/plexjs/models/shared";
 
 let value: AiringsType = AiringsType.NewAndRepeatAirings;
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

@@ -8,10 +8,30 @@ import {
   collectExtraKeys as collectExtraKeys$,
   safeParse,
 } from "../../lib/schemas.js";
+import * as openEnums from "../../types/enums.js";
+import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import { Part, Part$inboundSchema } from "./part.js";
+
+/**
+ * Voice activity detection availability flag returned by PMS.
+ *
+ * @remarks
+ * PMS returns this as string values (`"0"` or `"1"`) instead of a JSON boolean.
+ */
+export enum HasVoiceActivity {
+  False = 0,
+  True = 1,
+}
+/**
+ * Voice activity detection availability flag returned by PMS.
+ *
+ * @remarks
+ * PMS returns this as string values (`"0"` or `"1"`) instead of a JSON boolean.
+ */
+export type HasVoiceActivityOpen = OpenEnum<typeof HasVoiceActivity>;
 
 /**
  * `Media` represents an one or more media files (parts) and is a child of a metadata item. There aren't necessarily any guaranteed attributes on media elements since the attributes will vary based on the type. The possible attributes are not documented here, but they typically have self-evident names. High-level media information that can be used for badging and flagging, such as `videoResolution` and codecs, is included on the media element.
@@ -27,7 +47,13 @@ export type Media = {
   container?: string | undefined;
   duration?: number | undefined;
   has64bitOffsets?: boolean | undefined;
-  hasVoiceActivity?: boolean | undefined;
+  /**
+   * Voice activity detection availability flag returned by PMS.
+   *
+   * @remarks
+   * PMS returns this as string values (`"0"` or `"1"`) instead of a JSON boolean.
+   */
+  hasVoiceActivity: HasVoiceActivityOpen;
   height?: number | undefined;
   id: number;
   optimizedForStreaming?: boolean | undefined;
@@ -41,6 +67,12 @@ export type Media = {
 };
 
 /** @internal */
+export const HasVoiceActivity$inboundSchema: z.ZodType<
+  HasVoiceActivityOpen,
+  unknown
+> = openEnums.inboundSchemaInt(HasVoiceActivity);
+
+/** @internal */
 export const Media$inboundSchema: z.ZodType<Media, unknown> = collectExtraKeys$(
   z.object({
     aspectRatio: types.optional(types.number()),
@@ -51,7 +83,9 @@ export const Media$inboundSchema: z.ZodType<Media, unknown> = collectExtraKeys$(
     container: types.optional(types.string()),
     duration: types.optional(types.number()),
     has64bitOffsets: types.optional(types.boolean()),
-    hasVoiceActivity: types.optional(types.boolean()),
+    hasVoiceActivity: HasVoiceActivity$inboundSchema.default(
+      HasVoiceActivity.False,
+    ),
     height: types.optional(types.number()),
     id: types.number(),
     optimizedForStreaming: types.optional(types.boolean()),

@@ -14,11 +14,11 @@ The state of this queue
 import { CreateDownloadQueueStatus } from "@lukehagar/plexjs/models/operations";
 
 let value: CreateDownloadQueueStatus = CreateDownloadQueueStatus.Error;
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

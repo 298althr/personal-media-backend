@@ -5,7 +5,7 @@ OK
 ## Example Usage
 
 ```typescript
-import { SlashGetResponses200, StreamType } from "@lukehagar/plexjs/models/shared";
+import { HasVoiceActivity, SlashGetResponses200, StreamType } from "@lukehagar/plexjs/models/shared";
 
 let value: SlashGetResponses200 = {
   mediaContainer: {
@@ -81,7 +81,7 @@ let value: SlashGetResponses200 = {
             container: "mov",
             duration: 150192,
             has64bitOffsets: false,
-            hasVoiceActivity: true,
+            hasVoiceActivity: HasVoiceActivity.True,
             height: 544,
             id: 1,
             optimizedForStreaming: false,

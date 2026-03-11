@@ -10,7 +10,11 @@ Metadata items can often live in a hierarchy with relationships between them.  F
 ## Example Usage
 
 ```typescript
-import { MediaContainerWithDecisionMetadatum, MediaContainerWithDecisionStreamType } from "@lukehagar/plexjs/models/shared";
+import {
+  MediaContainerWithDecisionHasVoiceActivity,
+  MediaContainerWithDecisionMetadatum,
+  MediaContainerWithDecisionStreamType,
+} from "@lukehagar/plexjs/models/shared";
 
 let value: MediaContainerWithDecisionMetadatum = {
   title: "<value>",
@@ -83,7 +87,7 @@ let value: MediaContainerWithDecisionMetadatum = {
       container: "mov",
       duration: 150192,
       has64bitOffsets: false,
-      hasVoiceActivity: true,
+      hasVoiceActivity: MediaContainerWithDecisionHasVoiceActivity.True,
       height: 544,
       id: 1,
       optimizedForStreaming: false,

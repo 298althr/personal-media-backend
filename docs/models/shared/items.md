@@ -10,7 +10,7 @@ Metadata items can often live in a hierarchy with relationships between them.  F
 ## Example Usage
 
 ```typescript
-import { Items, StreamType } from "@lukehagar/plexjs/models/shared";
+import { HasVoiceActivity, Items, StreamType } from "@lukehagar/plexjs/models/shared";
 
 let value: Items = {
   title: "<value>",
@@ -83,7 +83,7 @@ let value: Items = {
       container: "mov",
       duration: 150192,
       has64bitOffsets: false,
-      hasVoiceActivity: true,
+      hasVoiceActivity: HasVoiceActivity.True,
       height: 544,
       id: 1,
       optimizedForStreaming: false,
@@ -276,7 +276,7 @@ let value: Items = {
           container: "mov",
           duration: 150192,
           has64bitOffsets: false,
-          hasVoiceActivity: true,
+          hasVoiceActivity: HasVoiceActivity.True,
           height: 544,
           id: 1,
           optimizedForStreaming: false,

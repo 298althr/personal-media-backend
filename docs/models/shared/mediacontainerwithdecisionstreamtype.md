@@ -13,11 +13,11 @@ import { MediaContainerWithDecisionStreamType } from "@lukehagar/plexjs/models/s
 
 let value: MediaContainerWithDecisionStreamType =
   MediaContainerWithDecisionStreamType.Video;
+
+// Open enum: unrecognized values are captured as Unrecognized<number>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<number>` branded type.
 
 | Name                   | Value                  |
 | ---------------------- | ---------------------- |

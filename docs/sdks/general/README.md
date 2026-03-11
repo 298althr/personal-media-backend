@@ -114,9 +114,7 @@ Get details about this PMS's identity
 ```typescript
 import { PlexAPI } from "@lukehagar/plexjs";
 
-const plexAPI = new PlexAPI({
-  token: "<YOUR_API_KEY_HERE>",
-});
+const plexAPI = new PlexAPI();
 
 async function run() {
   const result = await plexAPI.general.getIdentity();
@@ -137,9 +135,7 @@ import { generalGetIdentity } from "@lukehagar/plexjs/funcs/generalGetIdentity.j
 
 // Use `PlexAPICore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const plexAPI = new PlexAPICore({
-  token: "<YOUR_API_KEY_HERE>",
-});
+const plexAPI = new PlexAPICore();
 
 async function run() {
   const res = await generalGetIdentity(plexAPI);
