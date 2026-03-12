@@ -3,7 +3,7 @@
 ## Example Usage
 
 ```typescript
-import { HasVoiceActivity, Hub, StreamType } from "@lukehagar/plexjs/models/shared";
+import { HasVoiceActivityEnum, Hub, StreamType } from "@lukehagar/plexjs/models/shared";
 
 let value: Hub = {
   type: "track",
@@ -82,7 +82,7 @@ let value: Hub = {
           container: "mov",
           duration: 150192,
           has64bitOffsets: false,
-          hasVoiceActivity: HasVoiceActivity.True,
+          hasVoiceActivity: HasVoiceActivityEnum.Zero,
           height: 544,
           id: 1,
           optimizedForStreaming: false,

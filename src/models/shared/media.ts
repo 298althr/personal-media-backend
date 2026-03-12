@@ -12,26 +12,23 @@ import * as openEnums from "../../types/enums.js";
 import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smartUnion.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import { Part, Part$inboundSchema } from "./part.js";
+
+export enum HasVoiceActivityEnum {
+  Zero = "0",
+  One = "1",
+}
+export type HasVoiceActivityEnumOpen = OpenEnum<typeof HasVoiceActivityEnum>;
 
 /**
  * Voice activity detection availability flag returned by PMS.
  *
  * @remarks
- * PMS returns this as string values (`"0"` or `"1"`) instead of a JSON boolean.
+ * PMS may return this as a boolean or as string values (`"0"` or `"1"`).
  */
-export enum HasVoiceActivity {
-  False = 0,
-  True = 1,
-}
-/**
- * Voice activity detection availability flag returned by PMS.
- *
- * @remarks
- * PMS returns this as string values (`"0"` or `"1"`) instead of a JSON boolean.
- */
-export type HasVoiceActivityOpen = OpenEnum<typeof HasVoiceActivity>;
+export type HasVoiceActivity = boolean | HasVoiceActivityEnumOpen;
 
 /**
  * `Media` represents an one or more media files (parts) and is a child of a metadata item. There aren't necessarily any guaranteed attributes on media elements since the attributes will vary based on the type. The possible attributes are not documented here, but they typically have self-evident names. High-level media information that can be used for badging and flagging, such as `videoResolution` and codecs, is included on the media element.
@@ -51,9 +48,9 @@ export type Media = {
    * Voice activity detection availability flag returned by PMS.
    *
    * @remarks
-   * PMS returns this as string values (`"0"` or `"1"`) instead of a JSON boolean.
+   * PMS may return this as a boolean or as string values (`"0"` or `"1"`).
    */
-  hasVoiceActivity: HasVoiceActivityOpen;
+  hasVoiceActivity?: boolean | HasVoiceActivityEnumOpen | undefined;
   height?: number | undefined;
   id: number;
   optimizedForStreaming?: boolean | undefined;
@@ -67,10 +64,26 @@ export type Media = {
 };
 
 /** @internal */
-export const HasVoiceActivity$inboundSchema: z.ZodType<
-  HasVoiceActivityOpen,
+export const HasVoiceActivityEnum$inboundSchema: z.ZodType<
+  HasVoiceActivityEnumOpen,
   unknown
-> = openEnums.inboundSchemaInt(HasVoiceActivity);
+> = openEnums.inboundSchema(HasVoiceActivityEnum);
+
+/** @internal */
+export const HasVoiceActivity$inboundSchema: z.ZodType<
+  HasVoiceActivity,
+  unknown
+> = smartUnion([types.boolean(), HasVoiceActivityEnum$inboundSchema]);
+
+export function hasVoiceActivityFromJSON(
+  jsonString: string,
+): SafeParseResult<HasVoiceActivity, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => HasVoiceActivity$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'HasVoiceActivity' from JSON`,
+  );
+}
 
 /** @internal */
 export const Media$inboundSchema: z.ZodType<Media, unknown> = collectExtraKeys$(
@@ -83,8 +96,8 @@ export const Media$inboundSchema: z.ZodType<Media, unknown> = collectExtraKeys$(
     container: types.optional(types.string()),
     duration: types.optional(types.number()),
     has64bitOffsets: types.optional(types.boolean()),
-    hasVoiceActivity: HasVoiceActivity$inboundSchema.default(
-      HasVoiceActivity.False,
+    hasVoiceActivity: types.optional(
+      smartUnion([types.boolean(), HasVoiceActivityEnum$inboundSchema]),
     ),
     height: types.optional(types.number()),
     id: types.number(),

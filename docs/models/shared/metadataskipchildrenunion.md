@@ -1,0 +1,19 @@
+# MetadataSkipChildrenUnion
+
+When found on a show item, indicates that the children (seasons) should be skipped in favor of the grandchildren (episodes). Useful for mini-series, etc.
+
+
+## Supported Types
+
+### `boolean`
+
+```typescript
+const value: boolean = true;
+```
+
+### `shared.MetadataSkipChildrenEnum`
+
+```typescript
+const value: shared.MetadataSkipChildrenEnum = MetadataSkipChildrenEnum.Zero;
+```
+

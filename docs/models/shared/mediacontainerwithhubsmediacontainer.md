@@ -8,7 +8,7 @@ The container often "hoists" common attributes from its children. For example, i
 ## Example Usage
 
 ```typescript
-import { HasVoiceActivity, MediaContainerWithHubsMediaContainer, StreamType } from "@lukehagar/plexjs/models/shared";
+import { HasVoiceActivityEnum, MediaContainerWithHubsMediaContainer, StreamType } from "@lukehagar/plexjs/models/shared";
 
 let value: MediaContainerWithHubsMediaContainer = {
   hub: [
@@ -89,7 +89,7 @@ let value: MediaContainerWithHubsMediaContainer = {
               container: "mov",
               duration: 150192,
               has64bitOffsets: false,
-              hasVoiceActivity: HasVoiceActivity.True,
+              hasVoiceActivity: HasVoiceActivityEnum.Zero,
               height: 544,
               id: 1,
               optimizedForStreaming: false,

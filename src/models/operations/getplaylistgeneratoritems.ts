@@ -12,6 +12,7 @@ import * as openEnums from "../../types/enums.js";
 import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smartUnion.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as shared from "../shared/index.js";
 
@@ -125,6 +126,36 @@ export type GetPlaylistGeneratorItemsGuid = {
    */
   id: string;
 };
+
+export enum GetPlaylistGeneratorItemsSkipChildrenEnum {
+  Zero = "0",
+  One = "1",
+}
+export type GetPlaylistGeneratorItemsSkipChildrenEnumOpen = OpenEnum<
+  typeof GetPlaylistGeneratorItemsSkipChildrenEnum
+>;
+
+/**
+ * When found on a show item, indicates that the children (seasons) should be skipped in favor of the grandchildren (episodes). Useful for mini-series, etc.
+ */
+export type GetPlaylistGeneratorItemsSkipChildrenUnion =
+  | boolean
+  | GetPlaylistGeneratorItemsSkipChildrenEnumOpen;
+
+export enum GetPlaylistGeneratorItemsSkipParentEnum {
+  Zero = "0",
+  One = "1",
+}
+export type GetPlaylistGeneratorItemsSkipParentEnumOpen = OpenEnum<
+  typeof GetPlaylistGeneratorItemsSkipParentEnum
+>;
+
+/**
+ * When present on an episode or track item, indicates parent should be skipped in favor of grandparent (show).
+ */
+export type GetPlaylistGeneratorItemsSkipParentUnion =
+  | boolean
+  | GetPlaylistGeneratorItemsSkipParentEnumOpen;
 
 /**
  * The state of processing if this generator is part of an optimizer playlist
@@ -365,11 +396,17 @@ export type Metadata = {
   /**
    * When found on a show item, indicates that the children (seasons) should be skipped in favor of the grandchildren (episodes). Useful for mini-series, etc.
    */
-  skipChildren?: boolean | undefined;
+  skipChildren?:
+    | boolean
+    | GetPlaylistGeneratorItemsSkipChildrenEnumOpen
+    | undefined;
   /**
    * When present on an episode or track item, indicates parent should be skipped in favor of grandparent (show).
    */
-  skipParent?: boolean | undefined;
+  skipParent?:
+    | boolean
+    | GetPlaylistGeneratorItemsSkipParentEnumOpen
+    | undefined;
   /**
    * Typically only seen in metadata at a library's top level
    */
@@ -549,6 +586,66 @@ export function getPlaylistGeneratorItemsGuidFromJSON(
 }
 
 /** @internal */
+export const GetPlaylistGeneratorItemsSkipChildrenEnum$inboundSchema: z.ZodType<
+  GetPlaylistGeneratorItemsSkipChildrenEnumOpen,
+  unknown
+> = openEnums.inboundSchema(GetPlaylistGeneratorItemsSkipChildrenEnum);
+
+/** @internal */
+export const GetPlaylistGeneratorItemsSkipChildrenUnion$inboundSchema:
+  z.ZodType<GetPlaylistGeneratorItemsSkipChildrenUnion, unknown> = smartUnion([
+    types.boolean(),
+    GetPlaylistGeneratorItemsSkipChildrenEnum$inboundSchema,
+  ]);
+
+export function getPlaylistGeneratorItemsSkipChildrenUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  GetPlaylistGeneratorItemsSkipChildrenUnion,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetPlaylistGeneratorItemsSkipChildrenUnion$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'GetPlaylistGeneratorItemsSkipChildrenUnion' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetPlaylistGeneratorItemsSkipParentEnum$inboundSchema: z.ZodType<
+  GetPlaylistGeneratorItemsSkipParentEnumOpen,
+  unknown
+> = openEnums.inboundSchema(GetPlaylistGeneratorItemsSkipParentEnum);
+
+/** @internal */
+export const GetPlaylistGeneratorItemsSkipParentUnion$inboundSchema: z.ZodType<
+  GetPlaylistGeneratorItemsSkipParentUnion,
+  unknown
+> = smartUnion([
+  types.boolean(),
+  GetPlaylistGeneratorItemsSkipParentEnum$inboundSchema,
+]);
+
+export function getPlaylistGeneratorItemsSkipParentUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  GetPlaylistGeneratorItemsSkipParentUnion,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetPlaylistGeneratorItemsSkipParentUnion$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'GetPlaylistGeneratorItemsSkipParentUnion' from JSON`,
+  );
+}
+
+/** @internal */
 export const ProcessingState$inboundSchema: z.ZodType<
   ProcessingStateOpen,
   unknown
@@ -620,8 +717,18 @@ export const Metadata$inboundSchema: z.ZodType<Metadata, unknown> =
       Role: types.optional(z.array(shared.Tag$inboundSchema)),
       search: types.optional(types.boolean()),
       secondary: types.optional(types.boolean()),
-      skipChildren: types.optional(types.boolean()),
-      skipParent: types.optional(types.boolean()),
+      skipChildren: types.optional(
+        smartUnion([
+          types.boolean(),
+          GetPlaylistGeneratorItemsSkipChildrenEnum$inboundSchema,
+        ]),
+      ),
+      skipParent: types.optional(
+        smartUnion([
+          types.boolean(),
+          GetPlaylistGeneratorItemsSkipParentEnum$inboundSchema,
+        ]),
+      ),
       Sort: types.optional(z.array(shared.Sort$inboundSchema)),
       studio: types.optional(types.string()),
       subtype: types.optional(types.string()),

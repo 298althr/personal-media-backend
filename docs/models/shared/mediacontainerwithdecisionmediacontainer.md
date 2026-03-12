@@ -9,7 +9,7 @@ The container often "hoists" common attributes from its children. For example, i
 
 ```typescript
 import {
-  MediaContainerWithDecisionHasVoiceActivity,
+  MediaContainerWithDecisionHasVoiceActivityEnum,
   MediaContainerWithDecisionMediaContainer,
   MediaContainerWithDecisionStreamType,
 } from "@lukehagar/plexjs/models/shared";
@@ -87,7 +87,7 @@ let value: MediaContainerWithDecisionMediaContainer = {
           container: "mov",
           duration: 150192,
           has64bitOffsets: false,
-          hasVoiceActivity: MediaContainerWithDecisionHasVoiceActivity.True,
+          hasVoiceActivity: MediaContainerWithDecisionHasVoiceActivityEnum.Zero,
           height: 544,
           id: 1,
           optimizedForStreaming: false,

@@ -5,7 +5,7 @@ OK
 ## Example Usage
 
 ```typescript
-import { HasVoiceActivity, MediaContainerWithHubs, StreamType } from "@lukehagar/plexjs/models/shared";
+import { HasVoiceActivityEnum, MediaContainerWithHubs, StreamType } from "@lukehagar/plexjs/models/shared";
 
 let value: MediaContainerWithHubs = {
   mediaContainer: {
@@ -87,7 +87,7 @@ let value: MediaContainerWithHubs = {
                 container: "mov",
                 duration: 150192,
                 has64bitOffsets: false,
-                hasVoiceActivity: HasVoiceActivity.True,
+                hasVoiceActivity: HasVoiceActivityEnum.Zero,
                 height: 544,
                 id: 1,
                 optimizedForStreaming: false,

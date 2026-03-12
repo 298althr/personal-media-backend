@@ -6,7 +6,7 @@ OK
 
 ```typescript
 import { GetRelatedItemsResponse } from "@lukehagar/plexjs/models/operations";
-import { HasVoiceActivity, StreamType } from "@lukehagar/plexjs/models/shared";
+import { HasVoiceActivityEnum, StreamType } from "@lukehagar/plexjs/models/shared";
 
 let value: GetRelatedItemsResponse = {
   mediaContainer: {
@@ -88,7 +88,7 @@ let value: GetRelatedItemsResponse = {
                 container: "mov",
                 duration: 150192,
                 has64bitOffsets: false,
-                hasVoiceActivity: HasVoiceActivity.True,
+                hasVoiceActivity: HasVoiceActivityEnum.Zero,
                 height: 544,
                 id: 1,
                 optimizedForStreaming: false,

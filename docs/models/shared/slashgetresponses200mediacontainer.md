@@ -3,7 +3,7 @@
 ## Example Usage
 
 ```typescript
-import { HasVoiceActivity, SlashGetResponses200MediaContainer, StreamType } from "@lukehagar/plexjs/models/shared";
+import { HasVoiceActivityEnum, SlashGetResponses200MediaContainer, StreamType } from "@lukehagar/plexjs/models/shared";
 
 let value: SlashGetResponses200MediaContainer = {
   directory: [
@@ -78,7 +78,7 @@ let value: SlashGetResponses200MediaContainer = {
           container: "mov",
           duration: 150192,
           has64bitOffsets: false,
-          hasVoiceActivity: HasVoiceActivity.True,
+          hasVoiceActivity: HasVoiceActivityEnum.Zero,
           height: 544,
           id: 1,
           optimizedForStreaming: false,

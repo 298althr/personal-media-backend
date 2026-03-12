@@ -8,8 +8,11 @@ import {
   collectExtraKeys as collectExtraKeys$,
   safeParse,
 } from "../../lib/schemas.js";
+import * as openEnums from "../../types/enums.js";
+import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smartUnion.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as shared from "../shared/index.js";
 
@@ -21,6 +24,36 @@ export type ListSessionsGuid = {
    */
   id: string;
 };
+
+export enum ListSessionsSkipChildrenEnum {
+  Zero = "0",
+  One = "1",
+}
+export type ListSessionsSkipChildrenEnumOpen = OpenEnum<
+  typeof ListSessionsSkipChildrenEnum
+>;
+
+/**
+ * When found on a show item, indicates that the children (seasons) should be skipped in favor of the grandchildren (episodes). Useful for mini-series, etc.
+ */
+export type ListSessionsSkipChildrenUnion =
+  | boolean
+  | ListSessionsSkipChildrenEnumOpen;
+
+export enum ListSessionsSkipParentEnum {
+  Zero = "0",
+  One = "1",
+}
+export type ListSessionsSkipParentEnumOpen = OpenEnum<
+  typeof ListSessionsSkipParentEnum
+>;
+
+/**
+ * When present on an episode or track item, indicates parent should be skipped in favor of grandparent (show).
+ */
+export type ListSessionsSkipParentUnion =
+  | boolean
+  | ListSessionsSkipParentEnumOpen;
 
 /**
  * Items in a library are referred to as "metadata items." These metadata items are distinct from "media items" which represent actual instances of media that can be consumed. Consider a TV library that has a single video file in it for a particular episode of a show. The library has a single media item, but it has three metadata items: one for the show, one for the season, and one for the episode. Consider a movie library that has two video files in it: the same movie, but two different resolutions. The library has a single metadata item for the movie, but that metadata item has two media items, one for each resolution. Additionally a "media item" will have one or more "media parts" where the the parts are intended to be watched together, such as a CD1 and CD2 parts of the same movie.
@@ -233,11 +266,11 @@ export type ListSessionsMetadatum = {
   /**
    * When found on a show item, indicates that the children (seasons) should be skipped in favor of the grandchildren (episodes). Useful for mini-series, etc.
    */
-  skipChildren?: boolean | undefined;
+  skipChildren?: boolean | ListSessionsSkipChildrenEnumOpen | undefined;
   /**
    * When present on an episode or track item, indicates parent should be skipped in favor of grandparent (show).
    */
-  skipParent?: boolean | undefined;
+  skipParent?: boolean | ListSessionsSkipParentEnumOpen | undefined;
   /**
    * Typically only seen in metadata at a library's top level
    */
@@ -354,6 +387,50 @@ export function listSessionsGuidFromJSON(
 }
 
 /** @internal */
+export const ListSessionsSkipChildrenEnum$inboundSchema: z.ZodType<
+  ListSessionsSkipChildrenEnumOpen,
+  unknown
+> = openEnums.inboundSchema(ListSessionsSkipChildrenEnum);
+
+/** @internal */
+export const ListSessionsSkipChildrenUnion$inboundSchema: z.ZodType<
+  ListSessionsSkipChildrenUnion,
+  unknown
+> = smartUnion([types.boolean(), ListSessionsSkipChildrenEnum$inboundSchema]);
+
+export function listSessionsSkipChildrenUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<ListSessionsSkipChildrenUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListSessionsSkipChildrenUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListSessionsSkipChildrenUnion' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListSessionsSkipParentEnum$inboundSchema: z.ZodType<
+  ListSessionsSkipParentEnumOpen,
+  unknown
+> = openEnums.inboundSchema(ListSessionsSkipParentEnum);
+
+/** @internal */
+export const ListSessionsSkipParentUnion$inboundSchema: z.ZodType<
+  ListSessionsSkipParentUnion,
+  unknown
+> = smartUnion([types.boolean(), ListSessionsSkipParentEnum$inboundSchema]);
+
+export function listSessionsSkipParentUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<ListSessionsSkipParentUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListSessionsSkipParentUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListSessionsSkipParentUnion' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListSessionsMetadatum$inboundSchema: z.ZodType<
   ListSessionsMetadatum,
   unknown
@@ -416,8 +493,12 @@ export const ListSessionsMetadatum$inboundSchema: z.ZodType<
     Role: types.optional(z.array(shared.Tag$inboundSchema)),
     search: types.optional(types.boolean()),
     secondary: types.optional(types.boolean()),
-    skipChildren: types.optional(types.boolean()),
-    skipParent: types.optional(types.boolean()),
+    skipChildren: types.optional(
+      smartUnion([types.boolean(), ListSessionsSkipChildrenEnum$inboundSchema]),
+    ),
+    skipParent: types.optional(
+      smartUnion([types.boolean(), ListSessionsSkipParentEnum$inboundSchema]),
+    ),
     Sort: types.optional(z.array(shared.Sort$inboundSchema)),
     studio: types.optional(types.string()),
     subtype: types.optional(types.string()),

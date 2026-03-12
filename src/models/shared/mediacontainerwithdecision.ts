@@ -12,6 +12,7 @@ import * as openEnums from "../../types/enums.js";
 import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smartUnion.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import { Filter, Filter$inboundSchema } from "./filter.js";
 import { Image, Image$inboundSchema } from "./image.js";
@@ -27,25 +28,23 @@ export type MediaContainerWithDecisionGuid = {
   id: string;
 };
 
-/**
- * Voice activity detection availability flag returned by PMS.
- *
- * @remarks
- * PMS returns this as string values (`"0"` or `"1"`) instead of a JSON boolean.
- */
-export enum MediaContainerWithDecisionHasVoiceActivity {
-  False = 0,
-  True = 1,
+export enum MediaContainerWithDecisionHasVoiceActivityEnum {
+  Zero = "0",
+  One = "1",
 }
+export type MediaContainerWithDecisionHasVoiceActivityEnumOpen = OpenEnum<
+  typeof MediaContainerWithDecisionHasVoiceActivityEnum
+>;
+
 /**
  * Voice activity detection availability flag returned by PMS.
  *
  * @remarks
- * PMS returns this as string values (`"0"` or `"1"`) instead of a JSON boolean.
+ * PMS may return this as a boolean or as string values (`"0"` or `"1"`).
  */
-export type MediaContainerWithDecisionHasVoiceActivityOpen = OpenEnum<
-  typeof MediaContainerWithDecisionHasVoiceActivity
->;
+export type MediaContainerWithDecisionHasVoiceActivityUnion =
+  | boolean
+  | MediaContainerWithDecisionHasVoiceActivityEnumOpen;
 
 /**
  * Stream type:
@@ -365,9 +364,12 @@ export type MediaContainerWithDecisionMedia = {
    * Voice activity detection availability flag returned by PMS.
    *
    * @remarks
-   * PMS returns this as string values (`"0"` or `"1"`) instead of a JSON boolean.
+   * PMS may return this as a boolean or as string values (`"0"` or `"1"`).
    */
-  hasVoiceActivity: MediaContainerWithDecisionHasVoiceActivityOpen;
+  hasVoiceActivity?:
+    | boolean
+    | MediaContainerWithDecisionHasVoiceActivityEnumOpen
+    | undefined;
   height?: number | undefined;
   id: number;
   optimizedForStreaming?: boolean | undefined;
@@ -382,6 +384,36 @@ export type MediaContainerWithDecisionMedia = {
   selected?: boolean | undefined;
   additionalProperties?: { [k: string]: any } | undefined;
 };
+
+export enum MediaContainerWithDecisionSkipChildrenEnum {
+  Zero = "0",
+  One = "1",
+}
+export type MediaContainerWithDecisionSkipChildrenEnumOpen = OpenEnum<
+  typeof MediaContainerWithDecisionSkipChildrenEnum
+>;
+
+/**
+ * When found on a show item, indicates that the children (seasons) should be skipped in favor of the grandchildren (episodes). Useful for mini-series, etc.
+ */
+export type MediaContainerWithDecisionSkipChildrenUnion =
+  | boolean
+  | MediaContainerWithDecisionSkipChildrenEnumOpen;
+
+export enum MediaContainerWithDecisionSkipParentEnum {
+  Zero = "0",
+  One = "1",
+}
+export type MediaContainerWithDecisionSkipParentEnumOpen = OpenEnum<
+  typeof MediaContainerWithDecisionSkipParentEnum
+>;
+
+/**
+ * When present on an episode or track item, indicates parent should be skipped in favor of grandparent (show).
+ */
+export type MediaContainerWithDecisionSkipParentUnion =
+  | boolean
+  | MediaContainerWithDecisionSkipParentEnumOpen;
 
 /**
  * Items in a library are referred to as "metadata items." These metadata items are distinct from "media items" which represent actual instances of media that can be consumed. Consider a TV library that has a single video file in it for a particular episode of a show. The library has a single media item, but it has three metadata items: one for the show, one for the season, and one for the episode. Consider a movie library that has two video files in it: the same movie, but two different resolutions. The library has a single metadata item for the movie, but that metadata item has two media items, one for each resolution. Additionally a "media item" will have one or more "media parts" where the the parts are intended to be watched together, such as a CD1 and CD2 parts of the same movie.
@@ -582,11 +614,17 @@ export type MediaContainerWithDecisionMetadatum = {
   /**
    * When found on a show item, indicates that the children (seasons) should be skipped in favor of the grandchildren (episodes). Useful for mini-series, etc.
    */
-  skipChildren?: boolean | undefined;
+  skipChildren?:
+    | boolean
+    | MediaContainerWithDecisionSkipChildrenEnumOpen
+    | undefined;
   /**
    * When present on an episode or track item, indicates parent should be skipped in favor of grandparent (show).
    */
-  skipParent?: boolean | undefined;
+  skipParent?:
+    | boolean
+    | MediaContainerWithDecisionSkipParentEnumOpen
+    | undefined;
   /**
    * Typically only seen in metadata at a library's top level
    */
@@ -723,9 +761,33 @@ export function mediaContainerWithDecisionGuidFromJSON(
 }
 
 /** @internal */
-export const MediaContainerWithDecisionHasVoiceActivity$inboundSchema:
-  z.ZodType<MediaContainerWithDecisionHasVoiceActivityOpen, unknown> = openEnums
-    .inboundSchemaInt(MediaContainerWithDecisionHasVoiceActivity);
+export const MediaContainerWithDecisionHasVoiceActivityEnum$inboundSchema:
+  z.ZodType<MediaContainerWithDecisionHasVoiceActivityEnumOpen, unknown> =
+    openEnums.inboundSchema(MediaContainerWithDecisionHasVoiceActivityEnum);
+
+/** @internal */
+export const MediaContainerWithDecisionHasVoiceActivityUnion$inboundSchema:
+  z.ZodType<MediaContainerWithDecisionHasVoiceActivityUnion, unknown> =
+    smartUnion([
+      types.boolean(),
+      MediaContainerWithDecisionHasVoiceActivityEnum$inboundSchema,
+    ]);
+
+export function mediaContainerWithDecisionHasVoiceActivityUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  MediaContainerWithDecisionHasVoiceActivityUnion,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      MediaContainerWithDecisionHasVoiceActivityUnion$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'MediaContainerWithDecisionHasVoiceActivityUnion' from JSON`,
+  );
+}
 
 /** @internal */
 export const MediaContainerWithDecisionStreamType$inboundSchema: z.ZodType<
@@ -892,8 +954,12 @@ export const MediaContainerWithDecisionMedia$inboundSchema: z.ZodType<
     container: types.optional(types.string()),
     duration: types.optional(types.number()),
     has64bitOffsets: types.optional(types.boolean()),
-    hasVoiceActivity: MediaContainerWithDecisionHasVoiceActivity$inboundSchema
-      .default(MediaContainerWithDecisionHasVoiceActivity.False),
+    hasVoiceActivity: types.optional(
+      smartUnion([
+        types.boolean(),
+        MediaContainerWithDecisionHasVoiceActivityEnum$inboundSchema,
+      ]),
+    ),
     height: types.optional(types.number()),
     id: types.number(),
     optimizedForStreaming: types.optional(types.boolean()),
@@ -924,6 +990,65 @@ export function mediaContainerWithDecisionMediaFromJSON(
     jsonString,
     (x) => MediaContainerWithDecisionMedia$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'MediaContainerWithDecisionMedia' from JSON`,
+  );
+}
+
+/** @internal */
+export const MediaContainerWithDecisionSkipChildrenEnum$inboundSchema:
+  z.ZodType<MediaContainerWithDecisionSkipChildrenEnumOpen, unknown> = openEnums
+    .inboundSchema(MediaContainerWithDecisionSkipChildrenEnum);
+
+/** @internal */
+export const MediaContainerWithDecisionSkipChildrenUnion$inboundSchema:
+  z.ZodType<MediaContainerWithDecisionSkipChildrenUnion, unknown> = smartUnion([
+    types.boolean(),
+    MediaContainerWithDecisionSkipChildrenEnum$inboundSchema,
+  ]);
+
+export function mediaContainerWithDecisionSkipChildrenUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  MediaContainerWithDecisionSkipChildrenUnion,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      MediaContainerWithDecisionSkipChildrenUnion$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'MediaContainerWithDecisionSkipChildrenUnion' from JSON`,
+  );
+}
+
+/** @internal */
+export const MediaContainerWithDecisionSkipParentEnum$inboundSchema: z.ZodType<
+  MediaContainerWithDecisionSkipParentEnumOpen,
+  unknown
+> = openEnums.inboundSchema(MediaContainerWithDecisionSkipParentEnum);
+
+/** @internal */
+export const MediaContainerWithDecisionSkipParentUnion$inboundSchema: z.ZodType<
+  MediaContainerWithDecisionSkipParentUnion,
+  unknown
+> = smartUnion([
+  types.boolean(),
+  MediaContainerWithDecisionSkipParentEnum$inboundSchema,
+]);
+
+export function mediaContainerWithDecisionSkipParentUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  MediaContainerWithDecisionSkipParentUnion,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      MediaContainerWithDecisionSkipParentUnion$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'MediaContainerWithDecisionSkipParentUnion' from JSON`,
   );
 }
 
@@ -991,8 +1116,18 @@ export const MediaContainerWithDecisionMetadatum$inboundSchema: z.ZodType<
     Role: types.optional(z.array(Tag$inboundSchema)),
     search: types.optional(types.boolean()),
     secondary: types.optional(types.boolean()),
-    skipChildren: types.optional(types.boolean()),
-    skipParent: types.optional(types.boolean()),
+    skipChildren: types.optional(
+      smartUnion([
+        types.boolean(),
+        MediaContainerWithDecisionSkipChildrenEnum$inboundSchema,
+      ]),
+    ),
+    skipParent: types.optional(
+      smartUnion([
+        types.boolean(),
+        MediaContainerWithDecisionSkipParentEnum$inboundSchema,
+      ]),
+    ),
     Sort: types.optional(z.array(Sort$inboundSchema)),
     studio: types.optional(types.string()),
     subtype: types.optional(types.string()),
