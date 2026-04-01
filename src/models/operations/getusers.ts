@@ -161,14 +161,14 @@ export type AllowTunersOpen = OpenEnum<typeof AllowTuners>;
 /**
  * Indicates if the user is allowed to sync media.
  */
-export enum AllowSync {
+export enum GetUsersAllowSync {
   Disable = 0,
   Enable = 1,
 }
 /**
  * Indicates if the user is allowed to sync media.
  */
-export type AllowSyncOpen = OpenEnum<typeof AllowSync>;
+export type GetUsersAllowSyncOpen = OpenEnum<typeof GetUsersAllowSync>;
 
 /**
  * Indicates if the user is allowed to upload from a camera.
@@ -312,7 +312,7 @@ export type User = {
   protected: ProtectedOpen;
   home: HomeOpen;
   allowTuners: AllowTunersOpen;
-  allowSync: AllowSyncOpen;
+  allowSync: GetUsersAllowSyncOpen;
   allowCameraUpload: AllowCameraUploadOpen;
   allowChannels: AllowChannelsOpen;
   allowSubtitleAdmin: AllowSubtitleAdminOpen;
@@ -485,8 +485,10 @@ export const AllowTuners$inboundSchema: z.ZodType<AllowTunersOpen, unknown> =
   openEnums.inboundSchemaInt(AllowTuners);
 
 /** @internal */
-export const AllowSync$inboundSchema: z.ZodType<AllowSyncOpen, unknown> =
-  openEnums.inboundSchemaInt(AllowSync);
+export const GetUsersAllowSync$inboundSchema: z.ZodType<
+  GetUsersAllowSyncOpen,
+  unknown
+> = openEnums.inboundSchemaInt(GetUsersAllowSync);
 
 /** @internal */
 export const AllowCameraUpload$inboundSchema: z.ZodType<
@@ -556,7 +558,7 @@ export const User$inboundSchema: z.ZodType<User, unknown> = z.object({
   protected: Protected$inboundSchema.default(Protected.Disable),
   home: Home$inboundSchema.default(Home.Disable),
   allowTuners: AllowTuners$inboundSchema.default(AllowTuners.Disable),
-  allowSync: AllowSync$inboundSchema.default(AllowSync.Disable),
+  allowSync: GetUsersAllowSync$inboundSchema.default(GetUsersAllowSync.Disable),
   allowCameraUpload: AllowCameraUpload$inboundSchema.default(
     AllowCameraUpload.Disable,
   ),

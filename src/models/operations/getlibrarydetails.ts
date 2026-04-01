@@ -5,8 +5,11 @@
 import * as z from "zod/v4";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
+import * as openEnums from "../../types/enums.js";
+import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smartUnion.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as shared from "../shared/index.js";
 
@@ -112,6 +115,16 @@ export type GetLibraryDetailsRequest = {
   includeDetails?: shared.BoolInt | undefined;
 };
 
+export enum GetLibraryDetailsAllowSyncEnum {
+  Zero = "0",
+  One = "1",
+}
+export type GetLibraryDetailsAllowSyncEnumOpen = OpenEnum<
+  typeof GetLibraryDetailsAllowSyncEnum
+>;
+
+export type AllowSync = boolean | GetLibraryDetailsAllowSyncEnumOpen;
+
 export type GetLibraryDetailsMediaContainer = {
   /**
    * The flavors of directory found here:
@@ -122,7 +135,7 @@ export type GetLibraryDetailsMediaContainer = {
    *   - Special: There is a By Folder entry which allows browsing the media by the underlying filesystem structure, and there's a completely obsolete entry marked `"search": true` which used to be used to allow clients to build search dialogs on the fly.
    */
   content?: string | undefined;
-  allowSync?: boolean | undefined;
+  allowSync?: boolean | GetLibraryDetailsAllowSyncEnumOpen | undefined;
   art?: string | undefined;
   directory?: Array<shared.Metadata> | undefined;
   identifier?: string | undefined;
@@ -203,12 +216,34 @@ export function getLibraryDetailsRequestToJSON(
 }
 
 /** @internal */
+export const GetLibraryDetailsAllowSyncEnum$inboundSchema: z.ZodType<
+  GetLibraryDetailsAllowSyncEnumOpen,
+  unknown
+> = openEnums.inboundSchema(GetLibraryDetailsAllowSyncEnum);
+
+/** @internal */
+export const AllowSync$inboundSchema: z.ZodType<AllowSync, unknown> =
+  smartUnion([types.boolean(), GetLibraryDetailsAllowSyncEnum$inboundSchema]);
+
+export function allowSyncFromJSON(
+  jsonString: string,
+): SafeParseResult<AllowSync, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AllowSync$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AllowSync' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetLibraryDetailsMediaContainer$inboundSchema: z.ZodType<
   GetLibraryDetailsMediaContainer,
   unknown
 > = z.object({
   content: types.optional(types.string()),
-  allowSync: types.optional(types.boolean()),
+  allowSync: types.optional(
+    smartUnion([types.boolean(), GetLibraryDetailsAllowSyncEnum$inboundSchema]),
+  ),
   art: types.optional(types.string()),
   Directory: types.optional(z.array(shared.Metadata$inboundSchema)),
   identifier: types.optional(types.string()),

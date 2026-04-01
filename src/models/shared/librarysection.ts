@@ -5,13 +5,28 @@
 import * as z from "zod/v4";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
+import * as openEnums from "../../types/enums.js";
+import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smartUnion.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import {
   MediaTypeString$inboundSchema,
   MediaTypeStringOpen,
 } from "./mediatypestring.js";
+
+export enum LibrarySectionAllowSyncEnum {
+  Zero = "0",
+  One = "1",
+}
+export type LibrarySectionAllowSyncEnumOpen = OpenEnum<
+  typeof LibrarySectionAllowSyncEnum
+>;
+
+export type LibrarySectionAllowSyncUnion =
+  | boolean
+  | LibrarySectionAllowSyncEnumOpen;
 
 /**
  * Represents a top-level location on disk where media in this library section is stored
@@ -36,7 +51,7 @@ export type LibrarySection = {
    */
   type: MediaTypeStringOpen;
   agent?: string | undefined;
-  allowSync?: boolean | undefined;
+  allowSync?: boolean | LibrarySectionAllowSyncEnumOpen | undefined;
   art?: string | undefined;
   composite?: string | undefined;
   content?: boolean | undefined;
@@ -66,6 +81,28 @@ export type LibrarySection = {
 };
 
 /** @internal */
+export const LibrarySectionAllowSyncEnum$inboundSchema: z.ZodType<
+  LibrarySectionAllowSyncEnumOpen,
+  unknown
+> = openEnums.inboundSchema(LibrarySectionAllowSyncEnum);
+
+/** @internal */
+export const LibrarySectionAllowSyncUnion$inboundSchema: z.ZodType<
+  LibrarySectionAllowSyncUnion,
+  unknown
+> = smartUnion([types.boolean(), LibrarySectionAllowSyncEnum$inboundSchema]);
+
+export function librarySectionAllowSyncUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<LibrarySectionAllowSyncUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LibrarySectionAllowSyncUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LibrarySectionAllowSyncUnion' from JSON`,
+  );
+}
+
+/** @internal */
 export const LibrarySectionLocation$inboundSchema: z.ZodType<
   LibrarySectionLocation,
   unknown
@@ -90,7 +127,9 @@ export const LibrarySection$inboundSchema: z.ZodType<LibrarySection, unknown> =
     title: types.optional(types.string()),
     type: MediaTypeString$inboundSchema,
     agent: types.optional(types.string()),
-    allowSync: types.optional(types.boolean()),
+    allowSync: types.optional(
+      smartUnion([types.boolean(), LibrarySectionAllowSyncEnum$inboundSchema]),
+    ),
     art: types.optional(types.string()),
     composite: types.optional(types.string()),
     content: types.optional(types.boolean()),

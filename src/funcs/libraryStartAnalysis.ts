@@ -30,6 +30,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Start analysis of all items in a section.  If BIF generation is enabled, this will also be started on this section
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function libraryStartAnalysis(
   client: PlexAPICore,
@@ -92,7 +94,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/library/sections/{sectionId}/analyze")(pathParams);
 
   const headers = new Headers(compactMap({
@@ -156,7 +157,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

@@ -30,6 +30,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Delete a single media from a metadata item in the library
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function libraryDeleteMediaItem(
   client: PlexAPICore,
@@ -96,7 +98,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/library/metadata/{ids}/media/{mediaItem}")(
     pathParams,
   );
@@ -166,7 +167,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

@@ -94,7 +94,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/downloadQueue/{queueId}/items")(pathParams);
 
   const headers = new Headers(compactMap({

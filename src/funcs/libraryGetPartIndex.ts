@@ -96,7 +96,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/library/parts/{partId}/indexes/{index}")(
     pathParams,
   );

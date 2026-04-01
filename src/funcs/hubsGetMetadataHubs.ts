@@ -91,7 +91,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/hubs/metadata/{metadataId}")(pathParams);
 
   const query = encodeFormQuery({

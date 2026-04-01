@@ -92,7 +92,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/library/parts/{partId}")(pathParams);
 
   const query = encodeFormQuery({

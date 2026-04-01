@@ -97,7 +97,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc(
     "/{transcodeType}/:/transcode/universal/start.{extension}",
   )(pathParams);

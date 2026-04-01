@@ -97,7 +97,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc(
     "/livetv/sessions/{sessionId}/{consumerId}/index.m3u8",
   )(pathParams);

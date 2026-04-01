@@ -99,7 +99,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc(
     "/livetv/epg/countries/{country}/{epgId}/regions/{region}/lineups",
   )(pathParams);

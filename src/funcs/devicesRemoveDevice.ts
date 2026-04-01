@@ -29,6 +29,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Remove a devices by its id along with its channel mappings
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function devicesRemoveDevice(
   client: PlexAPICore,
@@ -91,7 +93,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/media/grabbers/devices/{deviceId}")(pathParams);
 
   const headers = new Headers(compactMap({
@@ -155,7 +156,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

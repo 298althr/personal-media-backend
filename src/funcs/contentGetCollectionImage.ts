@@ -96,7 +96,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc(
     "/library/collections/{collectionId}/composite/{updatedAt}",
   )(pathParams);

@@ -30,6 +30,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Empty trash in the section, permanently deleting media/metadata for missing media
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function libraryEmptyTrash(
   client: PlexAPICore,
@@ -92,7 +94,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/library/sections/{sectionId}/emptyTrash")(
     pathParams,
   );
@@ -158,7 +159,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

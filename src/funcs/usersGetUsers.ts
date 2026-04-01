@@ -31,6 +31,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Get list of all users that are friends and have library access with the provided Plex authentication token
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function usersGetUsers(
   client: PlexAPICore,
@@ -157,7 +159,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

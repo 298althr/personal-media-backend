@@ -95,7 +95,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/livetv/dvrs/{dvrId}/channels/{channel}/tune")(
     pathParams,
   );

@@ -101,7 +101,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/library/metadata/{ids}/marker/{marker}")(
     pathParams,
   );

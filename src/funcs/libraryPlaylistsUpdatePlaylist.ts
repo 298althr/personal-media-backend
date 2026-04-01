@@ -92,7 +92,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/playlists/{playlistId}")(pathParams);
 
   const headers = new Headers(compactMap({

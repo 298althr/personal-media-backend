@@ -98,7 +98,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/downloadQueue/{queueId}/item/{itemId}/decision")(
     pathParams,
   );

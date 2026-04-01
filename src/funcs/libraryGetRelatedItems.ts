@@ -91,7 +91,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/library/metadata/{ids}/related")(pathParams);
 
   const headers = new Headers(compactMap({

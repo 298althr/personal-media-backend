@@ -27,6 +27,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * This endpoint will stop all currently running tasks and remove any scheduled tasks from the queue.
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function butlerStopTasks(
   client: PlexAPICore,
@@ -77,7 +79,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

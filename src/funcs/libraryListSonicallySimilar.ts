@@ -93,7 +93,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/library/metadata/{ids}/nearest")(pathParams);
 
   const query = encodeFormQuery({

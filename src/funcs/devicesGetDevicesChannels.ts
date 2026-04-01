@@ -29,6 +29,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Get a device's channels by its id
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function devicesGetDevicesChannels(
   client: PlexAPICore,
@@ -91,7 +93,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/media/grabbers/devices/{deviceId}/channels")(
     pathParams,
   );
@@ -157,7 +158,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

@@ -1,21 +1,18 @@
 # AllowSync
 
-Indicates if the user is allowed to sync media.
 
-## Example Usage
+## Supported Types
+
+### `boolean`
 
 ```typescript
-import { AllowSync } from "@lukehagar/plexjs/models/operations";
-
-let value: AllowSync = AllowSync.Enable;
-
-// Open enum: unrecognized values are captured as Unrecognized<number>
+const value: boolean = true;
 ```
 
-## Values
+### `operations.GetLibraryDetailsAllowSyncEnum`
 
-| Name                   | Value                  |
-| ---------------------- | ---------------------- |
-| `Disable`              | 0                      |
-| `Enable`               | 1                      |
-| -                      | `Unrecognized<number>` |
+```typescript
+const value: operations.GetLibraryDetailsAllowSyncEnum =
+  GetLibraryDetailsAllowSyncEnum.One;
+```
+

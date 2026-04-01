@@ -32,6 +32,8 @@ import { Result } from "../types/fp.js";
  * This endpoint will write a single-line log message, including a level and source to the main Plex Media Server log.
  *
  * Note: This endpoint responds to all HTTP verbs **except POST** but PUT is preferred
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function logWriteMessage(
   client: PlexAPICore,
@@ -157,7 +159,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

@@ -32,7 +32,7 @@ export type GetSectionsMediaContainer = {
    * @remarks
    */
   totalSize?: number | undefined;
-  allowSync?: boolean | undefined;
+  allowSync?: shared.AllowSync | undefined;
   directory?: Array<shared.LibrarySection> | undefined;
   /**
    * Typically just "Plex Library"
@@ -61,7 +61,7 @@ export const GetSectionsMediaContainer$inboundSchema: z.ZodType<
   offset: types.optional(types.number()),
   size: types.optional(types.number()),
   totalSize: types.optional(types.number()),
-  allowSync: types.optional(types.boolean()),
+  allowSync: types.optional(shared.AllowSync$inboundSchema),
   Directory: types.optional(z.array(shared.LibrarySection$inboundSchema)),
   title1: types.optional(types.string()),
 }).transform((v) => {

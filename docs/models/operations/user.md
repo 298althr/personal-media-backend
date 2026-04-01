@@ -8,8 +8,8 @@ import {
   AllowCameraUpload,
   AllowChannels,
   AllowSubtitleAdmin,
-  AllowSync,
   AllowTuners,
+  GetUsersAllowSync,
   Home,
   Owned,
   Pending,
@@ -28,7 +28,7 @@ let value: User = {
   protected: Protected.Enable,
   home: Home.Enable,
   allowTuners: AllowTuners.Enable,
-  allowSync: AllowSync.Enable,
+  allowSync: GetUsersAllowSync.Enable,
   allowCameraUpload: AllowCameraUpload.Enable,
   allowChannels: AllowChannels.Enable,
   allowSubtitleAdmin: AllowSubtitleAdmin.Enable,
@@ -67,7 +67,7 @@ let value: User = {
 | `protected`                                                                    | [operations.Protected](../../models/operations/protected.md)                   | :heavy_minus_sign:                                                             | N/A                                                                            | 1                                                                              |
 | `home`                                                                         | [operations.Home](../../models/operations/home.md)                             | :heavy_minus_sign:                                                             | N/A                                                                            | 1                                                                              |
 | `allowTuners`                                                                  | [operations.AllowTuners](../../models/operations/allowtuners.md)               | :heavy_minus_sign:                                                             | N/A                                                                            | 1                                                                              |
-| `allowSync`                                                                    | [operations.AllowSync](../../models/operations/allowsync.md)                   | :heavy_minus_sign:                                                             | N/A                                                                            | 1                                                                              |
+| `allowSync`                                                                    | [operations.GetUsersAllowSync](../../models/operations/getusersallowsync.md)   | :heavy_minus_sign:                                                             | N/A                                                                            | 1                                                                              |
 | `allowCameraUpload`                                                            | [operations.AllowCameraUpload](../../models/operations/allowcameraupload.md)   | :heavy_minus_sign:                                                             | N/A                                                                            | 1                                                                              |
 | `allowChannels`                                                                | [operations.AllowChannels](../../models/operations/allowchannels.md)           | :heavy_minus_sign:                                                             | N/A                                                                            | 1                                                                              |
 | `allowSubtitleAdmin`                                                           | [operations.AllowSubtitleAdmin](../../models/operations/allowsubtitleadmin.md) | :heavy_minus_sign:                                                             | N/A                                                                            | 1                                                                              |

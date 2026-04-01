@@ -91,7 +91,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/livetv/sessions/{sessionId}")(pathParams);
 
   const headers = new Headers(compactMap({

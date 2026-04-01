@@ -30,6 +30,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Get a device's thumb for display to the user
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function devicesGetThumb(
   client: PlexAPICore,
@@ -96,7 +98,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/media/grabbers/devices/{deviceId}/thumb/{version}")(
     pathParams,
   );
@@ -162,7 +163,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

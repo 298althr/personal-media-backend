@@ -104,7 +104,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc(
     "/playlists/{playlistId}/items/{generatorId}/{metadataId}/{action}",
   )(pathParams);

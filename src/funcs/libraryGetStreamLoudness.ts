@@ -92,7 +92,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/library/streams/{streamId}/loudness")(pathParams);
 
   const query = encodeFormQuery({

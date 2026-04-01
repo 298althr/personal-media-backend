@@ -12,7 +12,19 @@ import * as openEnums from "../../types/enums.js";
 import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smartUnion.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
+
+export enum CanAutoSyncEnum {
+  Zero = "0",
+  One = "1",
+}
+export type CanAutoSyncEnumOpen = OpenEnum<typeof CanAutoSyncEnum>;
+
+/**
+ * Indicates if the stream can auto-sync.
+ */
+export type CanAutoSync = boolean | CanAutoSyncEnumOpen;
 
 /**
  * Stream type:
@@ -98,7 +110,7 @@ export type Stream = {
   /**
    * Indicates if the stream can auto-sync.
    */
-  canAutoSync?: boolean | undefined;
+  canAutoSync?: boolean | CanAutoSyncEnumOpen | undefined;
   /**
    * Chroma sample location.
    */
@@ -234,6 +246,26 @@ export type Stream = {
 };
 
 /** @internal */
+export const CanAutoSyncEnum$inboundSchema: z.ZodType<
+  CanAutoSyncEnumOpen,
+  unknown
+> = openEnums.inboundSchema(CanAutoSyncEnum);
+
+/** @internal */
+export const CanAutoSync$inboundSchema: z.ZodType<CanAutoSync, unknown> =
+  smartUnion([types.boolean(), CanAutoSyncEnum$inboundSchema]);
+
+export function canAutoSyncFromJSON(
+  jsonString: string,
+): SafeParseResult<CanAutoSync, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CanAutoSync$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CanAutoSync' from JSON`,
+  );
+}
+
+/** @internal */
 export const StreamType$inboundSchema: z.ZodType<StreamTypeOpen, unknown> =
   openEnums.inboundSchemaInt(StreamType);
 
@@ -254,7 +286,9 @@ export const Stream$inboundSchema: z.ZodType<Stream, unknown> =
       DOVIRPUPresent: types.optional(types.boolean()),
       DOVIVersion: types.optional(types.string()),
       bitrate: types.optional(types.number()),
-      canAutoSync: types.optional(types.boolean()),
+      canAutoSync: types.optional(
+        smartUnion([types.boolean(), CanAutoSyncEnum$inboundSchema]),
+      ),
       chromaLocation: types.optional(types.string()),
       chromaSubsampling: types.optional(types.string()),
       codedHeight: types.optional(types.number()),

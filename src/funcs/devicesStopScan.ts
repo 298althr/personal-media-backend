@@ -92,7 +92,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/media/grabbers/devices/{deviceId}/scan")(
     pathParams,
   );

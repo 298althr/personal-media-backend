@@ -46,6 +46,21 @@ export type MediaContainerWithDecisionHasVoiceActivityUnion =
   | boolean
   | MediaContainerWithDecisionHasVoiceActivityEnumOpen;
 
+export enum MediaContainerWithDecisionCanAutoSyncEnum {
+  Zero = "0",
+  One = "1",
+}
+export type MediaContainerWithDecisionCanAutoSyncEnumOpen = OpenEnum<
+  typeof MediaContainerWithDecisionCanAutoSyncEnum
+>;
+
+/**
+ * Indicates if the stream can auto-sync.
+ */
+export type MediaContainerWithDecisionCanAutoSyncUnion =
+  | boolean
+  | MediaContainerWithDecisionCanAutoSyncEnumOpen;
+
 /**
  * Stream type:
  *
@@ -156,7 +171,10 @@ export type MediaContainerWithDecisionStream = {
   /**
    * Indicates if the stream can auto-sync.
    */
-  canAutoSync?: boolean | undefined;
+  canAutoSync?:
+    | boolean
+    | MediaContainerWithDecisionCanAutoSyncEnumOpen
+    | undefined;
   /**
    * Chroma sample location.
    */
@@ -790,6 +808,35 @@ export function mediaContainerWithDecisionHasVoiceActivityUnionFromJSON(
 }
 
 /** @internal */
+export const MediaContainerWithDecisionCanAutoSyncEnum$inboundSchema: z.ZodType<
+  MediaContainerWithDecisionCanAutoSyncEnumOpen,
+  unknown
+> = openEnums.inboundSchema(MediaContainerWithDecisionCanAutoSyncEnum);
+
+/** @internal */
+export const MediaContainerWithDecisionCanAutoSyncUnion$inboundSchema:
+  z.ZodType<MediaContainerWithDecisionCanAutoSyncUnion, unknown> = smartUnion([
+    types.boolean(),
+    MediaContainerWithDecisionCanAutoSyncEnum$inboundSchema,
+  ]);
+
+export function mediaContainerWithDecisionCanAutoSyncUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  MediaContainerWithDecisionCanAutoSyncUnion,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      MediaContainerWithDecisionCanAutoSyncUnion$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'MediaContainerWithDecisionCanAutoSyncUnion' from JSON`,
+  );
+}
+
+/** @internal */
 export const MediaContainerWithDecisionStreamType$inboundSchema: z.ZodType<
   MediaContainerWithDecisionStreamTypeOpen,
   unknown
@@ -826,7 +873,12 @@ export const MediaContainerWithDecisionStream$inboundSchema: z.ZodType<
     DOVIRPUPresent: types.optional(types.boolean()),
     DOVIVersion: types.optional(types.string()),
     bitrate: types.optional(types.number()),
-    canAutoSync: types.optional(types.boolean()),
+    canAutoSync: types.optional(
+      smartUnion([
+        types.boolean(),
+        MediaContainerWithDecisionCanAutoSyncEnum$inboundSchema,
+      ]),
+    ),
     chromaLocation: types.optional(types.string()),
     chromaSubsampling: types.optional(types.string()),
     codedHeight: types.optional(types.number()),

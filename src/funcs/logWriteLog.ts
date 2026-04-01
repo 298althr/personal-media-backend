@@ -28,6 +28,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * This endpoint will write multiple lines to the main Plex Media Server log in a single request. It takes a set of query strings as would normally sent to the above PUT endpoint as a linefeed-separated block of POST data. The parameters for each query string match as above.
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function logWriteLog(
   client: PlexAPICore,
@@ -101,7 +103,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

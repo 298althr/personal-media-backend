@@ -32,6 +32,8 @@ import { Result } from "../types/fp.js";
  *   2. If a task is configured to run at a random time during the configured window and we are outside that window, the task will start immediately.
  *   3. If a task is configured to run at a random time during the configured window and we are within that window, the task will be scheduled at a random time within the window.
  *   4. If we are outside the configured window, the task will start immediately.
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function butlerStartTasks(
   client: PlexAPICore,
@@ -82,7 +84,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

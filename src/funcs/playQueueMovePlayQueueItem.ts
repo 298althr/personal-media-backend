@@ -96,7 +96,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc(
     "/playQueues/{playQueueId}/items/{playQueueItemId}/move",
   )(pathParams);

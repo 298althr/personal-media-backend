@@ -4,6 +4,7 @@
 
 export * from "./accepts.js";
 export * from "./advancedsubtitles.js";
+export * from "./allowsync.js";
 export * from "./boolint.js";
 export * from "./channel.js";
 export * from "./channelmapping.js";

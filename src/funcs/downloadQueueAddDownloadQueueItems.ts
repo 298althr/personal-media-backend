@@ -94,7 +94,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/downloadQueue/{queueId}/add")(pathParams);
 
   const query = queryJoin(

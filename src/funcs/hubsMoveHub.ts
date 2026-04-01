@@ -29,6 +29,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Changed the ordering of a hub among others hubs
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function hubsMoveHub(
   client: PlexAPICore,
@@ -91,7 +93,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/hubs/sections/{sectionId}/manage/move")(pathParams);
 
   const query = encodeFormQuery({
@@ -160,7 +161,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

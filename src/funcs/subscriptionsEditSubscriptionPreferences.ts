@@ -93,7 +93,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/media/subscriptions/{subscriptionId}")(pathParams);
 
   const query = encodeDeepObjectQuery({

@@ -30,6 +30,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Delete an item from a collection
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function libraryCollectionsDeleteCollectionItem(
   client: PlexAPICore,
@@ -97,7 +99,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/library/collections/{collectionId}/items/{itemId}")(
     pathParams,
   );
@@ -163,7 +164,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

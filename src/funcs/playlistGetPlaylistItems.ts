@@ -91,7 +91,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/playlists/{playlistId}/items")(pathParams);
 
   const query = encodeFormQuery({

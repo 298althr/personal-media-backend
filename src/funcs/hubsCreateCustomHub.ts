@@ -30,6 +30,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Create a custom hub based on a metadata item
+ *
+ * If set, this operation will use {@link Security.token} from the global security.
  */
 export function hubsCreateCustomHub(
   client: PlexAPICore,
@@ -92,7 +94,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/hubs/sections/{sectionId}/manage")(pathParams);
 
   const query = encodeFormQuery({
@@ -163,7 +164,7 @@ async function $do(
 
   const secConfig = await extractSecurity(client._options.token);
   const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,

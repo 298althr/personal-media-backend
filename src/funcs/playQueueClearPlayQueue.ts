@@ -92,7 +92,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/playQueues/{playQueueId}/items")(pathParams);
 
   const headers = new Headers(compactMap({

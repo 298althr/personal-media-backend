@@ -102,7 +102,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/library/parts/{partId}/{changestamp}/{filename}")(
     pathParams,
   );

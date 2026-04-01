@@ -5,10 +5,21 @@
 import * as z from "zod/v4";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
+import * as openEnums from "../../types/enums.js";
+import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smartUnion.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import { Metadata, Metadata$inboundSchema } from "./metadata.js";
+
+export enum AllowSyncResponseEnum {
+  Zero = "0",
+  One = "1",
+}
+export type AllowSyncResponseEnumOpen = OpenEnum<typeof AllowSyncResponseEnum>;
+
+export type AllowSyncResponseUnion = boolean | AllowSyncResponseEnumOpen;
 
 export type SlashGetResponses200MediaContainer = {
   /**
@@ -20,7 +31,7 @@ export type SlashGetResponses200MediaContainer = {
    *   - Special: There is a By Folder entry which allows browsing the media by the underlying filesystem structure, and there's a completely obsolete entry marked `"search": true` which used to be used to allow clients to build search dialogs on the fly.
    */
   content?: string | undefined;
-  allowSync?: boolean | undefined;
+  allowSync?: boolean | AllowSyncResponseEnumOpen | undefined;
   art?: string | undefined;
   directory?: Array<Metadata> | undefined;
   identifier?: string | undefined;
@@ -43,12 +54,36 @@ export type SlashGetResponses200 = {
 };
 
 /** @internal */
+export const AllowSyncResponseEnum$inboundSchema: z.ZodType<
+  AllowSyncResponseEnumOpen,
+  unknown
+> = openEnums.inboundSchema(AllowSyncResponseEnum);
+
+/** @internal */
+export const AllowSyncResponseUnion$inboundSchema: z.ZodType<
+  AllowSyncResponseUnion,
+  unknown
+> = smartUnion([types.boolean(), AllowSyncResponseEnum$inboundSchema]);
+
+export function allowSyncResponseUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<AllowSyncResponseUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AllowSyncResponseUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AllowSyncResponseUnion' from JSON`,
+  );
+}
+
+/** @internal */
 export const SlashGetResponses200MediaContainer$inboundSchema: z.ZodType<
   SlashGetResponses200MediaContainer,
   unknown
 > = z.object({
   content: types.optional(types.string()),
-  allowSync: types.optional(types.boolean()),
+  allowSync: types.optional(
+    smartUnion([types.boolean(), AllowSyncResponseEnum$inboundSchema]),
+  ),
   art: types.optional(types.string()),
   Directory: types.optional(z.array(Metadata$inboundSchema)),
   identifier: types.optional(types.string()),

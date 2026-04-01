@@ -92,7 +92,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/library/people/{personId}/media")(pathParams);
 
   const headers = new Headers(compactMap({
