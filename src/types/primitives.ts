@@ -116,12 +116,10 @@ export function literalBigInt<T extends bigint>(value: T): z.ZodType<T> {
 
 export function optional<T extends z.ZodType>(t: T) {
   return z.union([
-    z.undefined(),
-
     // Null -> undefined
     z.null().transform(() => unrecognized(undefined)),
     t,
-  ]);
+  ]).optional();
 }
 
 export function nullable<T extends z.ZodType>(t: T) {

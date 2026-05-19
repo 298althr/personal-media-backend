@@ -46,6 +46,14 @@ export type MediaContainerWithDecisionHasVoiceActivityUnion =
   | boolean
   | MediaContainerWithDecisionHasVoiceActivityEnumOpen;
 
+export enum MediaContainerWithDecisionOptimizedForStreaming {
+  Zero = 0,
+  One = 1,
+}
+export type MediaContainerWithDecisionOptimizedForStreamingOpen = OpenEnum<
+  typeof MediaContainerWithDecisionOptimizedForStreaming
+>;
+
 export enum MediaContainerWithDecisionCanAutoSyncEnum {
   Zero = "0",
   One = "1",
@@ -390,7 +398,9 @@ export type MediaContainerWithDecisionMedia = {
     | undefined;
   height?: number | undefined;
   id: number;
-  optimizedForStreaming?: boolean | undefined;
+  optimizedForStreaming?:
+    | MediaContainerWithDecisionOptimizedForStreamingOpen
+    | undefined;
   part?: Array<MediaContainerWithDecisionPart> | undefined;
   videoCodec?: string | undefined;
   videoFrameRate?: string | undefined;
@@ -808,6 +818,11 @@ export function mediaContainerWithDecisionHasVoiceActivityUnionFromJSON(
 }
 
 /** @internal */
+export const MediaContainerWithDecisionOptimizedForStreaming$inboundSchema:
+  z.ZodType<MediaContainerWithDecisionOptimizedForStreamingOpen, unknown> =
+    openEnums.inboundSchemaInt(MediaContainerWithDecisionOptimizedForStreaming);
+
+/** @internal */
 export const MediaContainerWithDecisionCanAutoSyncEnum$inboundSchema: z.ZodType<
   MediaContainerWithDecisionCanAutoSyncEnumOpen,
   unknown
@@ -1014,7 +1029,9 @@ export const MediaContainerWithDecisionMedia$inboundSchema: z.ZodType<
     ),
     height: types.optional(types.number()),
     id: types.number(),
-    optimizedForStreaming: types.optional(types.boolean()),
+    optimizedForStreaming: types.optional(
+      MediaContainerWithDecisionOptimizedForStreaming$inboundSchema,
+    ),
     Part: types.optional(
       z.array(z.lazy(() => MediaContainerWithDecisionPart$inboundSchema)),
     ),

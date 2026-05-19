@@ -30,6 +30,12 @@ export type HasVoiceActivityEnumOpen = OpenEnum<typeof HasVoiceActivityEnum>;
  */
 export type HasVoiceActivity = boolean | HasVoiceActivityEnumOpen;
 
+export enum OptimizedForStreaming {
+  Zero = 0,
+  One = 1,
+}
+export type OptimizedForStreamingOpen = OpenEnum<typeof OptimizedForStreaming>;
+
 /**
  * `Media` represents an one or more media files (parts) and is a child of a metadata item. There aren't necessarily any guaranteed attributes on media elements since the attributes will vary based on the type. The possible attributes are not documented here, but they typically have self-evident names. High-level media information that can be used for badging and flagging, such as `videoResolution` and codecs, is included on the media element.
  *
@@ -53,7 +59,7 @@ export type Media = {
   hasVoiceActivity?: boolean | HasVoiceActivityEnumOpen | undefined;
   height?: number | undefined;
   id: number;
-  optimizedForStreaming?: boolean | undefined;
+  optimizedForStreaming?: OptimizedForStreamingOpen | undefined;
   part?: Array<Part> | undefined;
   videoCodec?: string | undefined;
   videoFrameRate?: string | undefined;
@@ -86,6 +92,12 @@ export function hasVoiceActivityFromJSON(
 }
 
 /** @internal */
+export const OptimizedForStreaming$inboundSchema: z.ZodType<
+  OptimizedForStreamingOpen,
+  unknown
+> = openEnums.inboundSchemaInt(OptimizedForStreaming);
+
+/** @internal */
 export const Media$inboundSchema: z.ZodType<Media, unknown> = collectExtraKeys$(
   z.object({
     aspectRatio: types.optional(types.number()),
@@ -101,7 +113,7 @@ export const Media$inboundSchema: z.ZodType<Media, unknown> = collectExtraKeys$(
     ),
     height: types.optional(types.number()),
     id: types.number(),
-    optimizedForStreaming: types.optional(types.boolean()),
+    optimizedForStreaming: types.optional(OptimizedForStreaming$inboundSchema),
     Part: types.optional(z.array(Part$inboundSchema)),
     videoCodec: types.optional(types.string()),
     videoFrameRate: types.optional(types.string()),

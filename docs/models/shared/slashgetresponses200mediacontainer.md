@@ -81,7 +81,6 @@ let value: SlashGetResponses200MediaContainer = {
           hasVoiceActivity: HasVoiceActivityEnum.Zero,
           height: 544,
           id: 1,
-          optimizedForStreaming: false,
           part: [
             {
               accessible: true,

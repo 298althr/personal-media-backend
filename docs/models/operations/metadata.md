@@ -87,7 +87,6 @@ let value: Metadata = {
       hasVoiceActivity: HasVoiceActivityEnum.Zero,
       height: 544,
       id: 1,
-      optimizedForStreaming: false,
       part: [
         {
           accessible: true,

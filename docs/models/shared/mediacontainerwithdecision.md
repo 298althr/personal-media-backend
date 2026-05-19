@@ -92,7 +92,6 @@ let value: MediaContainerWithDecision = {
               MediaContainerWithDecisionHasVoiceActivityEnum.Zero,
             height: 544,
             id: 1,
-            optimizedForStreaming: false,
             part: [
               {
                 accessible: true,

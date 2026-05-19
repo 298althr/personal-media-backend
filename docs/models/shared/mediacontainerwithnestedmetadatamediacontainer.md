@@ -86,7 +86,6 @@ let value: MediaContainerWithNestedMetadataMediaContainer = {
           hasVoiceActivity: HasVoiceActivityEnum.Zero,
           height: 544,
           id: 1,
-          optimizedForStreaming: false,
           part: [
             {
               accessible: true,
@@ -279,7 +278,6 @@ let value: MediaContainerWithNestedMetadataMediaContainer = {
               hasVoiceActivity: HasVoiceActivityEnum.Zero,
               height: 544,
               id: 1,
-              optimizedForStreaming: false,
               part: [
                 {
                   accessible: true,
