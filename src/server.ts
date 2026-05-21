@@ -54,15 +54,37 @@ fastify.get("/api/stream/*", async (request) => {
   return { url };
 });
 
-// List media files in S3 bucket
+// List media files in S3 bucket with file type and thumbnail info
 fastify.get("/api/media/list", async () => {
   const command = new ListObjectsV2Command({ Bucket: S3_BUCKET });
   const result = await s3Client.send(command);
-  const files = (result.Contents || []).map(f => ({
-    key: f.Key,
-    size: f.Size,
-    lastModified: f.LastModified
-  }));
+  const files = (result.Contents || []).map(f => {
+    const key = f.Key!;
+    const extension = key.split('.').pop()?.toLowerCase();
+    let fileType = 'unknown';
+    let thumbnailKey: string | null = null;
+
+    // Determine file type
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'].includes(extension || '')) {
+      fileType = 'image';
+      thumbnailKey = key; // For images, use the original as thumbnail
+    } else if (['mp4', 'mov', 'avi', 'mkv', 'webm'].includes(extension || '')) {
+      fileType = 'video';
+      thumbnailKey = `thumbnails/${key}.jpg`; // Video thumbnails stored in thumbnails folder
+    } else if (['mp3', 'wav', 'ogg', 'flac', 'aac'].includes(extension || '')) {
+      fileType = 'audio';
+    } else if (['pdf', 'doc', 'docx', 'txt', 'rtf'].includes(extension || '')) {
+      fileType = 'document';
+    }
+
+    return {
+      key,
+      size: f.Size,
+      lastModified: f.LastModified,
+      fileType,
+      thumbnailKey
+    };
+  });
   return { files };
 });
 
