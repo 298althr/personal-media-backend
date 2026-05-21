@@ -20,8 +20,9 @@ const s3Client = new S3Client({
 });
 
 // Register CORS plugin
+const CORS_ORIGIN = process.env['CORS_ORIGIN'] || '*';
 await fastify.register(cors, {
-  origin: true,
+  origin: CORS_ORIGIN,
   credentials: true
 });
 
