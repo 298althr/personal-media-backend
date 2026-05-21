@@ -9,7 +9,7 @@ import cors from '@fastify/cors';
 dotenv.config();
 
 const fastify = Fastify({ logger: true });
-const JWT_SECRET = process.env['JWT_SECRET'] || 'default-secret';
+const JWT_SECRET = process.env['JWT_SECRET']!;
 const S3_BUCKET = process.env['S3_BUCKET_NAME'] || '';
 const s3Client = new S3Client({ 
   region: process.env['AWS_REGION'] || 'us-east-1',
