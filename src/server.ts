@@ -11,19 +11,13 @@ dotenv.config();
 const fastify = Fastify({ logger: true });
 const JWT_SECRET = process.env['JWT_SECRET']!;
 const S3_BUCKET = process.env['S3_BUCKET_NAME'] || '';
+const CORS_ORIGIN = process.env['CORS_ORIGIN'] || '*';
 const s3Client = new S3Client({ 
   region: process.env['AWS_REGION'] || 'us-east-1',
   credentials: {
     accessKeyId: process.env['AWS_ACCESS_KEY_ID'] || '',
     secretAccessKey: process.env['AWS_SECRET_ACCESS_KEY'] || ''
   }
-});
-
-// Register CORS plugin
-const CORS_ORIGIN = process.env['CORS_ORIGIN'] || '*';
-await fastify.register(cors, {
-  origin: CORS_ORIGIN,
-  credentials: true
 });
 
 // Auth middleware - skip login and health routes
@@ -54,47 +48,26 @@ fastify.get("/api/stream/*", async (request) => {
   return { url };
 });
 
-// List media files in S3 bucket with file type and thumbnail info
+// List media files in S3 bucket
 fastify.get("/api/media/list", async () => {
   const command = new ListObjectsV2Command({ Bucket: S3_BUCKET });
   const result = await s3Client.send(command);
-  const files = (result.Contents || []).map(f => {
-    const key = f.Key!;
-    const extension = key.split('.').pop()?.toLowerCase();
-    let fileType = 'unknown';
-    let thumbnailKey: string | null = null;
-
-    // Determine file type
-    if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'].includes(extension || '')) {
-      fileType = 'image';
-      thumbnailKey = key; // For images, use the original as thumbnail
-    } else if (['mp4', 'mov', 'avi', 'mkv', 'webm'].includes(extension || '')) {
-      fileType = 'video';
-      thumbnailKey = `thumbnails/${key}.jpg`; // Video thumbnails stored in thumbnails folder
-    } else if (['mp3', 'wav', 'ogg', 'flac', 'aac'].includes(extension || '')) {
-      fileType = 'audio';
-    } else if (['pdf', 'doc', 'docx', 'txt', 'rtf'].includes(extension || '')) {
-      fileType = 'document';
-    }
-
-    return {
-      key,
-      size: f.Size,
-      lastModified: f.LastModified,
-      fileType,
-      thumbnailKey
-    };
-  });
+  const files = (result.Contents || []).map(f => ({
+    key: f.Key,
+    size: f.Size,
+    lastModified: f.LastModified
+  }));
   return { files };
-});
-
-// Health check
-fastify.get("/health", async () => {
-  return { status: "ok" };
 });
 
 const start = async () => {
   try {
+    // Register CORS plugin
+    await fastify.register(cors, {
+      origin: CORS_ORIGIN,
+      credentials: true
+    });
+    
     const port = parseInt(process.env['PORT'] || '3000');
     await fastify.listen({ port, host: "0.0.0.0" });
     fastify.log.info(`Server listening on ${port}`);
